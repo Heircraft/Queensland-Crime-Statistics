@@ -1,0 +1,79 @@
+
+.headerwrapper {
+   display: inline-block;
+   width: 100%;
+   
+   
+   position: relative;
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, .5);
+  padding: 10px;
+}
+
+.snoop {
+   background: transparent;
+}
+
+.textboxes {
+
+   max-width: 750px;  
+}
+
+.mapbtn {
+   position: absolute;
+   right:50px;
+   top: 27px;
+   
+}
+
+.searchbtn {
+   position: absolute;
+   right: 250px;
+   top: 27px;
+}
+
+.btn {
+   color: #494949 !important;
+   background: #ffffff;
+   padding: 20px;
+   border: 3px solid #4fb8e2 !important;
+   border-radius: 6px;
+   display: inline-block;
+   align-items: right;
+   width: 170px;
+   height: 135px;
+   
+}
+
+.btn p {
+   font-size: 150%;
+}
+
+.btn:hover {
+   color: #ffffff !important;
+   background: #4fb8e2;
+   border-color: #4fb8e2 !important;
+   transition: all 0.3s ease 0s;
+}
+
+.btn2 {
+   color: #494949 !important;
+   background: #ffffff;
+   padding: 20px;
+   border: 3px solid #055d97 !important;
+   border-radius: 6px;
+   display: inline-block;
+   align-items: right;
+   width: 170px;
+   height: 135px;
+}
+
+.btn2 p {
+   font-size: 150%;
+}
+
+.btn2:hover {
+   color: #ffffff !important;
+   background: #055d97;
+   border-color: #055d97 !important;
+   transition: all 0.3s ease 0s;
+}
