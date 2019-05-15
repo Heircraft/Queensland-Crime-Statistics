@@ -202,108 +202,109 @@ class SearchForm extends Component {
       return(
          <div className="querypage">
             <Alert stack ={{limit: 1}}/>
-         <form> 
-            <div className="headerwrapper">
-               <div className="textboxes">
-                  <TextField
-                     // autoFocus="true"
-                     name="offence"
-                     value={this.state.offence}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Offence"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />
-                  <TextField
-                     name="area"
-                     value={this.state.area}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Area"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />             
-                  <TextField
-                     name="age"
-                     value={this.state.age}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Age"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />
-                  <TextField
-                     name="gender"
-                     value={this.state.gender}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Gender"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />
-                  <TextField
-                     name="year"
-                     value={this.state.year}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Year"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />
-                  <TextField
-                     name="month"
-                     value={this.state.month}
-                     onChange={this.handleChange}
-                     id="outlined-textarea"
-                     placeholder="Month"
-                     className={classes.textField}
-                     margin="normal"
-                     variant="outlined"
-                     autoComplete="off"
-                  />
-                  
+            <div className= "headerwrapper">
+               <form onSubmit ={this.submitQuery}> 
+                  <div className="textboxes">
+                     <TextField
+                        // autoFocus="true"
+                        name="offence"
+                        value={this.state.offence}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Offence"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />
+                     <TextField
+                        name="area"
+                        value={this.state.area}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Area"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />             
+                     <TextField
+                        name="age"
+                        value={this.state.age}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Age"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />
+                     <TextField
+                        name="gender"
+                        value={this.state.gender}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Gender"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />
+                     <TextField
+                        name="year"
+                        value={this.state.year}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Year"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />
+                     <TextField
+                        name="month"
+                        value={this.state.month}
+                        onChange={this.handleChange}
+                        id="outlined-textarea"
+                        placeholder="Month"
+                        className={classes.textField}
+                        margin="normal"
+                        variant="outlined"
+                        autoComplete="off"
+                     />
+                     
+                     
+                  </div>     
                   <div className="searchbtn"> 
-                     <button onClick={this.submitQuery} className="btn"><p>Search</p></button>
-                  </div>
-               </div>
-            </div>
-            
-         </form>
-
+                     <button className="btn"><p>Search</p></button>
+                  </div>    
+               </form>
          <div className="mapbtn"> 
             {this.state.returns.length > 0 ? <button onClick={this.mapOnClick} className="btn2"><p>Graph</p></button>
             : <button onClick={this.cantMap} className="btn2"><p>Map</p></button>}
          </div>
-
-         <div className="background">
-            {!this.state.showGMapComponent && this.state.showQueryComponent ? 
-            <DisplayQuery returns={this.state.returns} offence={this.state.offenceT}
-            age={this.state.ageT} gender={this.state.genderT}
-            year={this.state.yearT} month={this.state.monthT}/> 
-            :  null}
-            {this.state.showMapComponent && !this.state.showQueryComponent ? 
-            <DisplayMap returns={this.state.returns} offence={this.state.offenceT}
-            age={this.state.ageT} gender={this.state.genderT}
-            year={this.state.yearT} month={this.state.monthT}/>
-            : null}
-            
-            {/* <DisplayGraphs returns={this.state.returns} offence={this.state.offenceT}
-            age={this.state.ageT} gender={this.state.genderT}
-            year={this.state.yearT} month={this.state.monthT}/> */}
-         </div>
-      
       </div>
+
+         
+
+      <div className="background">
+         {!this.state.showGMapComponent && this.state.showQueryComponent ? 
+         <DisplayQuery returns={this.state.returns} offence={this.state.offenceT}
+         age={this.state.ageT} gender={this.state.genderT}
+         year={this.state.yearT} month={this.state.monthT}/> 
+         :  null}
+         {this.state.showMapComponent && !this.state.showQueryComponent ? 
+         <DisplayMap returns={this.state.returns} offence={this.state.offenceT}
+         age={this.state.ageT} gender={this.state.genderT}
+         year={this.state.yearT} month={this.state.monthT}/>
+         : null}
+         
+         {/* <DisplayGraphs returns={this.state.returns} offence={this.state.offenceT}
+         age={this.state.ageT} gender={this.state.genderT}
+         year={this.state.yearT} month={this.state.monthT}/> */}
+      </div>
+   
+   </div>
 
          
       )

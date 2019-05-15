@@ -20,14 +20,14 @@
 
 .mapbtn {
    position: absolute;
-   right:50px;
+   right:20px;
    top: 27px;
    
 }
 
 .searchbtn {
    position: absolute;
-   right: 250px;
+   right: 140px;
    top: 27px;
 }
 
@@ -39,7 +39,7 @@
    border-radius: 6px;
    display: inline-block;
    align-items: right;
-   width: 170px;
+   width: 100px;
    height: 135px;
    
 }
@@ -63,7 +63,7 @@
    border-radius: 6px;
    display: inline-block;
    align-items: right;
-   width: 170px;
+   width: 100px;
    height: 135px;
 }
 

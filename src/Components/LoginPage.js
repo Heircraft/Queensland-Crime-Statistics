@@ -144,8 +144,7 @@ class LoginPage extends Component {
       }
       throw new Error("Invalid login credentials. Ensure you are registered");     
    })
-
-   .then((res) => this.state.JWT = res.token)
+   .then((data) => this.setState({JWT: data.token}))
    .then(this.state.isLoggedIn = true)
 
    .catch((error) => {
