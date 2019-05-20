@@ -29,7 +29,7 @@ var totals = [];
 
      return (
       <div className="container-table100">
-      {this.props.returns != '' ?
+      {this.props.returns !== '' ?
       
          <div className="wrap-table100">
             <div className="table100">
@@ -39,25 +39,28 @@ var totals = [];
                         <th>Offence</th>
                         <th>Location</th>
                         <th>Instances</th>
-                        {this.props.gender != '' ? <th>Gender</th> : null}
-                        {this.props.age != '' ? <th>Age</th> : null}
-                        {this.props.year != '' ? <th>Year</th> : null}
-                        {this.props.month != '' ? <th>Month</th> : null}
+                        {this.props.gender !== '' ? <th>Gender</th> : null}
+                        {this.props.age !== '' ? <th>Age</th> : null}
+                        {this.props.year !== '' ? <th>Year</th> : null}
+                        {this.props.month !== '' ? <th>Month</th> : null}
                         <th>Coordinates</th>
                      </tr>
                   </thead>
                   <tbody>
                      {this.props.returns.map((item, index) => 
-                        <tr key={`${index}${item.lng}`}>
-                           <td>{this.props.offence}</td>
-                           <td>{item.LGA}</td>
-                           <td>{item.total}</td>   
-                           {this.props.gender != '' ? <td>{this.props.gender}</td> : null}     
-                           {this.props.age != '' ? <td>{this.props.age}</td> : null}
-                           {this.props.year != '' ? <td>{this.props.year}</td> : null}
-                           {this.props.month != '' ? <td>{this.props.month}</td> : null}                
-                           <td >{`latitude: ${item.lat}`}<br></br>{`longitude: ${item.lng}`}</td>
-                        </tr> 
+                        // console.log(item.total)
+                        item.total !== 0 ?
+                           <tr key={`${index}${item.lng}`}>
+                              <td>{this.props.offence}</td>
+                              <td>{item.LGA}</td>
+                              <td>{item.total}</td>   
+                              {this.props.gender !== '' ? <td>{this.props.gender}</td> : null}     
+                              {this.props.age !== '' ? <td>{this.props.age}</td> : null}
+                              {this.props.year !== '' ? <td>{this.props.year}</td> : null}
+                              {this.props.month !== '' ? <td>{this.props.month}</td> : null}                
+                              <td >{`latitude: ${item.lat}`}<br></br>{`longitude: ${item.lng}`}</td>
+                           </tr> 
+                        : null
                      )}   
                   </tbody> 
                </table>

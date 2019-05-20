@@ -163,7 +163,7 @@ class LoginPage extends Component {
 
    render () {
       const { classes } = this.props;
-      if (this.state.isLoggedIn && this.state.JWT != '') {
+      if (this.state.isLoggedIn && this.state.JWT !== '') {
          return (
             <Home JWT={this.state.JWT}/>
          )        

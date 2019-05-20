@@ -1,0 +1,11 @@
+.title {
+   position: absolute;
+   left: 200px;
+   top: 200px;
+}
+
+.subtitle {
+   position: absolute;
+   right: 500px;
+   top: 200px;
+}

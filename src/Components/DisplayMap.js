@@ -1,20 +1,22 @@
 import React, { Component } from 'react';
+import '../Styles/css/DisplayMap.css'
 import {GoogleMap, withScriptjs, withGoogleMap, Marker} from 'react-google-maps';
 
-
 const Map = (props) => {
-
+   console.log(props.returns)
    return (
       <GoogleMap 
-         defaultZoom={10} 
-         defaultCenter={{lat: 12, lng: 12}}
+         defaultZoom={5} 
+         defaultCenter={{lat: -23, lng: 144}}
          >
          {props.returns.map((item, index) => (
-            <Marker key={`${index}${item.lng}`} 
-            position={{
-               lat: item.lat,
-               lng: item.lat
-               }}/>
+            item.total !== 0 ?
+               <Marker key={`${index}${item.lat}`} title={`${item.LGA}        Instances: ${item.total}`}
+               position={{
+                  lat: item.lat,
+                  lng: item.lng
+                  }}/>
+            : null
          ))}
       </GoogleMap>
    );
@@ -30,9 +32,23 @@ class DisplayMap extends Component {
    }
    
    render() {    
-      // console.log(this.props.returns)
+      var subtitle;
+      {this.props.month !== '' ?
+         subtitle =  `${this.props.age} ${this.props.gender} ${this.props.year} month: ${this.props.month}`
+      : subtitle = `${this.props.age} ${this.props.gender} ${this.props.year}`}
+      
       return(
-            <div style={{width: '100vw', height: '100vh'}}>
+         <div className="page"> 
+         <div className="title"> 
+            <p> Instances of {this.props.offence}<br></br> Across Queensland </p>
+         </div> 
+         <div className="subtitle">
+            <p> Specifiers:{subtitle}
+            </p>
+         </div>
+            
+         
+            <div className="map" style={{width: '100vw', height: '80vh'}}>
                <WrappedMap returns={this.props.returns} googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=
                   AIzaSyCtdsmklZEvkycTrlB-b0N9RTpwZen4ZQw`}
                   loadingElement={<div style={{height: "100%"}}/>}
@@ -40,6 +56,7 @@ class DisplayMap extends Component {
                   mapElement={<div style={{height: "100%"}}/>}
                />
             </div>
+         </div>
       )
    }
 }

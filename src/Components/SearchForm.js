@@ -155,7 +155,7 @@ class SearchForm extends Component {
    }
 
    handleChange = (e) => {
-      if (e.target.name == 'age' || e.target.name == 'gender' || e.target.name == 'year') {
+      if (e.target.name === 'age' || e.target.name === 'gender' || e.target.name === 'year') {
          if (!queryRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
             Alert.error('This field must contain only numbers or letters separated by a comma', {
                position: 'top',
@@ -166,7 +166,7 @@ class SearchForm extends Component {
             return;
          }
       }
-      if (e.target.name == 'month') {
+      if (e.target.name === 'month') {
          if (!monthRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
             Alert.error('This field must contain only numbers separated by a comma', {
                position: 'top',
