@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../Styles/css/Login.css';
 
 import RegisterForm from './RegisterForm.js'
+
+import LoginForm from './LoginForm.js'
 import Home from './Home.js'
 
 import Alert from 'react-s-alert';
@@ -20,19 +22,15 @@ import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
 var passwordRegex = /[0-9\sA-Za-z]/;
-const styles = theme => ({
-   textField: {
-     flexBasis: 200,
-   },
- });
 
 class LoginPage extends Component { 
    constructor(props) {
       super(props);
       this.state = {
-         password: '',
-         showPassword: false,
-         email: '',
+         loginPassword: '',
+         loginEmail: '',
+         registerPassword: '',
+         registerEmail: '',
          error: '',
          JWT: '',
          isLoggedIn: false,
@@ -41,18 +39,135 @@ class LoginPage extends Component {
          isRegisterOpen: false,
       };
       this.submitLogin = this.submitLogin.bind(this);
-      this.handleEmailChange = this.handleEmailChange.bind(this);
-      this.handlePasswordChange = this.handlePasswordChange.bind(this);
-      this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+      this.handleLoginEmailChange = this.handleLoginEmailChange.bind(this);
+      this.handleLoginPasswordChange = this.handleLoginPasswordChange.bind(this);
       this.logOut = this.logOut.bind(this);
+      this.registerSuccess = this.registerSuccess.bind(this);
 
+      this.submitRegister = this.submitRegister.bind(this);
+      this.handleRegisterEmailChange = this.handleRegisterEmailChange.bind(this);
+      this.handleRegisterPasswordChange = this.handleRegisterPasswordChange.bind(this);
   }
 
-   handleClickShowPassword() {
-      this.setState({showPassword: !this.state.showPassword});
-   };
+   registerSuccess() {
+      this.setState({loginEmail: this.state.registerEmail});
+      this.setState({loginPassword: this.state.registerPassword});
 
-   handlePasswordChange = (e) => {
+      this.setState({isLoginOpen: true})
+      this.setState({isRegisterOpen: false})
+
+      this.setState({registerPassword: ''})
+      this.setState({registerEmail: ''})
+      
+      Alert.success('You have successfully registered!', {
+         position: 'top',
+         effect: 'stackslide',
+         timeout: 3000
+      });
+   }
+
+   handleRegisterPasswordChange = (e) => {
+      if (!passwordRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
+         Alert.error('Password cannot contain symbols', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         return;
+      }
+      this.setState({[e.target.name]: e.target.value})
+  }
+
+  handleRegisterEmailChange = (e) => {
+   this.setState({[e.target.name]: e.target.value})
+}
+
+   submitRegister = (e) => {
+      e.preventDefault(); 
+     
+      if (this.state.registerPassword == '' && this.state.registerEmail == '') {
+         Alert.error('Please fill out the given fields', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         this.setState({
+            registerPassword: '',
+            registerEmail: '',
+         })
+         return;
+      } else if (this.state.registerPassword.length < 6 && !this.state.registerEmail.includes("@")) {
+         Alert.error('Password must be 6 Characters', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         Alert.error('please input an email with the @ symbol', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         this.setState({
+            registerPassword: '',
+            registerEmail: ''
+         })
+         return;
+      } else if (this.state.registerPassword.length < 6) {
+         Alert.error('Password must be 6 Characters', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         this.setState({
+            registerPassword: '',
+         })
+         return;
+      } else if (!this.state.registerEmail.includes("@")) {
+         Alert.error('please input an email with the @ symbol', {
+            position: 'top',
+            effect: 'stackslide',
+            timeout: 3000
+         });
+         this.setState({
+            registerEmail: '',
+         })
+         return;
+      }
+     const url = 'https://cab230.hackhouse.sh/register';
+      return fetch(url, {
+         method: "POST",
+         // body: 'email=alexanderflyo%40gmail.com&password=Artem1s12',
+         body: `email=${this.state.registerEmail}&password=${this.state.registerPassword}`,
+         headers: {
+         "Content-type": "application/x-www-form-urlencoded"
+         }
+      })
+      .then(function(res) {
+         if (res.status === 201) {
+            return res.json();
+         } else if (res.status === 400) {
+            this.setState({
+               registerPassword: '',
+               registerEmail: '',
+            })
+            Alert.error('That account is already registered!', {
+               position: 'top',
+               effect: 'stackslide',
+               timeout: 3000
+            });
+         }
+         throw new Error("Error when registering...try refreshing");     
+      })    
+      .then((res) => console.log(JSON.stringify(res)))
+      .then(this.registerSuccess)
+
+      .catch((error) => {
+         console.log(error.message);
+      });
+      
+   }
+
+   handleLoginPasswordChange = (e) => {
       if (!passwordRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
          Alert.error('Password cannot contain symbols', {
             position: 'top',
@@ -64,7 +179,7 @@ class LoginPage extends Component {
       this.setState({[e.target.name]: e.target.value})
    }
 
-   handleEmailChange = (e) => {
+   handleLoginEmailChange = (e) => {
       this.setState({[e.target.name]: e.target.value})
    }
 
@@ -76,18 +191,18 @@ class LoginPage extends Component {
   submitLogin = (e) => {
       e.preventDefault(); 
 
-   // if (this.state.password == '' && this.state.email == '') {
+   // if (this.state.loginPassword == '' && this.state.loginEmail == '') {
    //    Alert.error('Please fill out the given fields', {
    //       position: 'top',
    //       effect: 'stackslide',
    //       timeout: 3000
    //    });
    //    this.setState({
-   //       password: '',
-   //       email: '',
+   //       loginPassword: '',
+   //       loginEmail: '',
    //    })
    //    return;
-   // } else if (this.state.password.length < 6 && !this.state.email.includes("@")) {
+   // } else if (this.state.loginPassword.length < 6 && !this.state.loginEmail.includes("@")) {
    //    Alert.error('Password must be 6 Characters', {
    //       position: 'top',
    //       effect: 'stackslide',
@@ -99,34 +214,34 @@ class LoginPage extends Component {
    //       timeout: 3000
    //    });
    //    this.setState({
-   //       password: '',
-   //       email: ''
+   //       loginPassword: '',
+   //       loginEmail: ''
    //    })
    //    return;
-   // } else if (this.state.password.length < 6) {
+   // } else if (this.state.loginPassword.length < 6) {
    //    Alert.error('Password must be 6 Characters', {
    //       position: 'top',
    //       effect: 'stackslide',
    //       timeout: 3000
    //    });
    //    this.setState({
-   //       password: '',
+   //       loginPassword: '',
    //    })
    //    return;
-   // } else if (!this.state.email.includes("@")) {
+   // } else if (!this.state.loginEmail.includes("@")) {
    //    Alert.error('please input an email with the @ symbol', {
    //       position: 'top',
    //       effect: 'stackslide',
    //       timeout: 3000
    //    });
    //    this.setState({
-   //       email: '',
+   //       loginEmail: '',
    //    })
    //    return;
    // }
    this.setState({
-      password: '',
-      email: '',
+      loginPassword: '',
+      loginEmail: '',
    })
 
    const url = 'https://cab230.hackhouse.sh/login';
@@ -169,7 +284,6 @@ class LoginPage extends Component {
 
 
    render () {
-      const { classes } = this.props;
       if (this.state.isLoggedIn && this.state.JWT !== '') {
          return (
             <div> 
@@ -180,97 +294,30 @@ class LoginPage extends Component {
             </div>
          )        
       } 
-      if (this.state.isLoginOpen) {
+      else {
          return (
-            <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
-               <div className="box-controller">
-                  <div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
-                     Login
+               <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
+                  <div className="box-controller">
+                     <div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
+                        Login
+                     </div>
+                     <div className={"controller " + (this.state.isRegisterOpen ? "selected-controller" : "")} onClick={this.showRegisterBox.bind(this)}>
+                        Register
+                     </div>
                   </div>
-                  <div className={"controller " + (this.state.isRegisterOpen ? "selected-controller" : "")} onClick={this.showRegisterBox.bind(this)}>
-                     Register
-                  </div>
-               </div>
-               <div className="box-container">
-
-            <form>
-            <div className="inner-container">
-
-            <Alert stack ={{limit: 2}}/>
-
-               <div className="box">
-                  <div className="login-title">
-                     Login
-                  </div>
-                  <div className="input-group">
-                     <FormControl className={classNames(classes.textField)}>               
-                           <InputLabel htmlFor="adornment-password">Email</InputLabel>
-                           <Input
-                              name="email"
-                              id="adornment-password"
-                              onChange={this.handleEmailChange}
-                              value ={this.state.email}
-                              margin="normal"
-                           />  
-                     </FormControl>        
-                  </div>
-                  
-                  <div className="input-group-pass">
-                     <FormControl className={classNames(classes.textField)}>                       
-                        <InputLabel htmlFor="adornment-password">Password</InputLabel>
-                        <Input
-                           name="password"
-                           id="adornment-password"
-                           onChange={this.handlePasswordChange}
-                           value ={this.state.password}
-                           type={this.state.showPassword ? "text" : "password"}
-                           margin="normal"
-                           endAdornment={
-                              <InputAdornment position="end">
-                                 <IconButton
-                                    aria-label="Toggle password visibility"
-                                    onClick={this.handleClickShowPassword}
-                                 >
-                                    {this.state.showPassword ? <Visibility /> : <VisibilityOff />}
-                                 </IconButton>
-                              </InputAdornment>
-                           }
-                        />  
-                        <button onClick={this.submitLogin} className="login-btn">Login</button>
-                     </FormControl>        
-                  </div> 
-               </div>
-            </div>
-         </form>
-
-               </div>
-            </div>
-         )
-      } 
-      if (this.state.isRegisterOpen) {
-         return (
-            <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
-               <div className="box-controller">
-                  <div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
-                     Login
-                  </div>
-                  <div className={"controller " + (this.state.isRegisterOpen ? "selected-controller" : "")} onClick={this.showRegisterBox.bind(this)}>
-                     Register
+                  <div className="box-container">
+                     {this.state.isLoginOpen && <LoginForm submitLogin={this.submitLogin}handleLoginPasswordChange={this.handleLoginPasswordChange}handleLoginEmailChange={this.handleLoginEmailChange}loginEmail={this.state.loginEmail}loginPassword={this.state.loginPassword}/>}
+                     {this.state.isRegisterOpen && <RegisterForm submitRegister={this.submitRegister}handleRegisterPasswordChange={this.handleRegisterPasswordChange}handleRegisterEmailChange={this.handleRegisterEmailChange}registerEmail={this.state.registerEmail}registerPassword={this.state.registerPassword}/>}
                   </div>
                </div>
-               <div className="box-container">
-                  <RegisterForm/>
-               </div>
-            </div>
-         )
+            );
       }
+
    }
 }   
 
- export default withStyles(styles)(LoginPage);
- LoginPage.propTypes = {
-    classes: PropTypes.object.isRequired,
-  };
+export default LoginPage
+
 
 
 

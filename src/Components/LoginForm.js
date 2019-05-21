@@ -1,6 +1,8 @@
-
 import React, { Component } from 'react';
 import '../Styles/css/Login.css';
+
+import RegisterForm from './RegisterForm.js'
+import Home from './Home.js'
 
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -17,58 +19,59 @@ import FormControl from '@material-ui/core/FormControl';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 
-var passwordRegex = /[0-9\sA-Za-z]/;
 const styles = theme => ({
    textField: {
      flexBasis: 200,
    },
  });
 
-class RegisterForm extends Component {
+
+class LoginForm extends Component { 
    constructor(props) {
       super(props);
       this.state = {
-         showPassword: false,
+         showPassword: false
       };
       this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
-   }
+  }
 
    handleClickShowPassword() {
       this.setState({showPassword: !this.state.showPassword});
-  };
+   };
 
    render() {
       const { classes } = this.props;
       return (
          <form>
             <div className="inner-container">
-            
+
             <Alert stack ={{limit: 2}}/>
 
                <div className="box">
                   <div className="login-title">
-                     Register
+                     Login
                   </div>
                   <div className="input-group">
                      <FormControl className={classNames(classes.textField)}>               
                            <InputLabel htmlFor="adornment-password">Email</InputLabel>
                            <Input
-                              name="registerEmail"
+                              name="loginEmail"
                               id="adornment-password"
-                              onChange={this.props.handleRegisterEmailChange}
-                              value ={this.props.registerEmail}
+                              onChange={this.props.handleLoginEmailChange}
+                              value ={this.props.loginEmail}
                               margin="normal"
                            />  
                      </FormControl>        
                   </div>
+                  
                   <div className="input-group-pass">
                      <FormControl className={classNames(classes.textField)}>                       
                         <InputLabel htmlFor="adornment-password">Password</InputLabel>
                         <Input
-                           name="registerPassword"
+                           name="loginPassword"
                            id="adornment-password"
-                           onChange={this.props.handleRegisterPasswordChange}
-                           value ={this.props.registerPassword}
+                           onChange={this.props.handleLoginPasswordChange}
+                           value ={this.props.loginPassword}
                            type={this.state.showPassword ? "text" : "password"}
                            margin="normal"
                            endAdornment={
@@ -82,17 +85,17 @@ class RegisterForm extends Component {
                               </InputAdornment>
                            }
                         />  
-                        <button type="submit" onClick={this.props.submitRegister} className="login-btn">Register</button>
+                        <button onClick={this.props.submitLogin} className="login-btn">Login</button>
                      </FormControl>        
                   </div> 
-                  
                </div>
             </div>
          </form>
+
       )
    }
 }
-export default withStyles(styles)(RegisterForm);
-RegisterForm.propTypes = {
+export default withStyles(styles)(LoginForm);
+LoginForm.propTypes = {
    classes: PropTypes.object.isRequired,
  };
