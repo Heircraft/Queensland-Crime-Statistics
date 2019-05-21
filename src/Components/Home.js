@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
-
+import '../Styles/css/SearchForm.css'
 import SearchForm from './SearchForm.js'
 // import LoginForm from './Components/LoginPage.js';
 
@@ -13,8 +13,10 @@ class Home extends Component {
    }
 
    render() {
-      return(
-        <SearchForm JWT={this.props.JWT}/>
+      return(   
+         <div>     
+            <SearchForm JWT={this.props.JWT}/>
+        </div>  
       )
    }
 }

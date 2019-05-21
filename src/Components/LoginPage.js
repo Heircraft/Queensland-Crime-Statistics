@@ -44,6 +44,8 @@ class LoginPage extends Component {
       this.handleEmailChange = this.handleEmailChange.bind(this);
       this.handlePasswordChange = this.handlePasswordChange.bind(this);
       this.handleClickShowPassword = this.handleClickShowPassword.bind(this);
+      this.logOut = this.logOut.bind(this);
+
   }
 
    handleClickShowPassword() {
@@ -64,6 +66,11 @@ class LoginPage extends Component {
 
    handleEmailChange = (e) => {
       this.setState({[e.target.name]: e.target.value})
+   }
+
+   logOut() {
+      this.setState({isLoggedIn: false})
+      this.setState({isLoginOpen: true})
    }
 
   submitLogin = (e) => {
@@ -165,9 +172,15 @@ class LoginPage extends Component {
       const { classes } = this.props;
       if (this.state.isLoggedIn && this.state.JWT !== '') {
          return (
-            <Home JWT={this.state.JWT}/>
+            <div> 
+               <Home JWT={this.state.JWT}/>
+               <div className="logoutbtn"> 
+                  <button onClick={this.logOut} className="btn3"><p>Logout</p></button>
+               </div>  
+            </div>
          )        
-      } else if (this.state.isLoginOpen) {
+      } 
+      if (this.state.isLoginOpen) {
          return (
             <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
                <div className="box-controller">
@@ -233,7 +246,8 @@ class LoginPage extends Component {
                </div>
             </div>
          )
-      } else if (this.state.isRegisterOpen) {
+      } 
+      if (this.state.isRegisterOpen) {
          return (
             <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
                <div className="box-controller">

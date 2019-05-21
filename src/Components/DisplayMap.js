@@ -32,23 +32,28 @@ class DisplayMap extends Component {
    }
    
    render() {    
-      var subtitle;
-      {this.props.month !== '' ?
-         subtitle =  `${this.props.age} ${this.props.gender} ${this.props.year} month: ${this.props.month}`
-      : subtitle = `${this.props.age} ${this.props.gender} ${this.props.year}`}
+      var subtitle = ''
+      
       
       return(
-         <div className="page"> 
+         
+         <div className="page">
+            <div className="invis">
+               {this.props.age !== '' ? subtitle = subtitle + ` - ${this.props.age}` : null}
+               {this.props.gender !== '' ? subtitle = subtitle + ` - ${this.props.gender}` : null}
+               {this.props.year !== '' ? subtitle = subtitle + ` - ${this.props.year}` : null}
+               {this.props.month !== '' ? subtitle = subtitle + ` - month(s): ${this.props.month}`: null} 
+            </div>
          <div className="title"> 
-            <p> Instances of {this.props.offence}<br></br> Across Queensland </p>
+            <p> Instances of </p><h3>{this.props.offence}</h3><p> Across Queensland </p>
          </div> 
          <div className="subtitle">
-            <p> Specifiers:{subtitle}
-            </p>
+            <h2>Specifiers:</h2><p>{subtitle}</p>
+            
          </div>
             
          
-            <div className="map" style={{width: '100vw', height: '80vh'}}>
+            <div className="map" style={{width: '100vw', height: '75vh'}}>
                <WrappedMap returns={this.props.returns} googleMapURL={`https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=
                   AIzaSyCtdsmklZEvkycTrlB-b0N9RTpwZen4ZQw`}
                   loadingElement={<div style={{height: "100%"}}/>}
