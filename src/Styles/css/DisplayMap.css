@@ -6,7 +6,7 @@
    font-family: "Times New Roman", Times, serif;
    text-align: center;
 
-   border: 8px solid #055d97 !important;
+   border: 4px solid #055d97 !important;
    padding: 10px;
 }
 
@@ -16,19 +16,39 @@
 }
 
 .subtitle {
-   border: 8px solid #055d97 !important;
+   border: 4px solid #055d97 !important;
    padding: 20px;
    position: absolute;
    right: 200px;
    top: 210px;
    font-family: "Times New Roman", Times, serif;
-   text-align: center
+   text-align: left
 }
 
 .subtitle p {
-   text-align: right
+   text-align: left
+}
+
+.subtitle2 {
+   padding: 20px;
+   position: absolute;
+   right: 550px;
+   top: 170px;
+   font-family: "Times New Roman", Times, serif;
+   text-align: center
+}
+
+.subtitle2 p {
+   text-align: center
 }
 
 .invis {
    visibility: hidden;
+}
+
+.chart {
+   /* display: inline-block; */
+   /* width: 100%;
+   height:100%; */
+   overflow: inherit;
 }

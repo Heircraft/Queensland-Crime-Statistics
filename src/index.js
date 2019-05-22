@@ -2,11 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import LoginPage from './Components/LoginPage.js'
+import DisplayGraph from './Components/DisplayGraph.js'
+import Tabletest from './Components/tabletest.js'
 
-import Home from './Components/Home.js'
-import DisplayQuery from './Components/DisplayQuery.js'
-import Graph from './Components/DisplayGraphs.js'
-import Map from './Components/DisplayMap.js'
+
 
 
 ReactDOM.render(<LoginPage />, document.getElementById('root'));

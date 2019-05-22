@@ -16,17 +16,22 @@ import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
  
-var totals = [];
  class DisplayQuery extends React.Component {
    constructor(props) {
      super(props);
      this.state = {
      };
-     
+     this.onSort = this.onSort.bind(this)
    }
    
-   render() {
+   onSort(event, sortKey){
+      const data = this.props.returns;
+      data.pop();
+      data.sort((a,b) => a[sortKey].toString().localeCompare(b[sortKey]))
+      this.setState({data})
+    }
 
+   render() {
      return (
       <div className="container-table100">
       {this.props.returns !== '' ?
@@ -37,8 +42,8 @@ var totals = [];
                   <thead>
                      <tr className="table100-head">
                         <th>Offence</th>
-                        <th>Location</th>
-                        <th>Instances</th>
+                        <th onClick={e => this.onSort(e, 'LGA')}>Location</th>
+                        <th onClick={e => this.onSort(e, 'total')}>Instances</th>
                         {this.props.gender !== '' ? <th>Gender</th> : null}
                         {this.props.age !== '' ? <th>Age</th> : null}
                         {this.props.year !== '' ? <th>Year</th> : null}
@@ -48,19 +53,16 @@ var totals = [];
                   </thead>
                   <tbody>
                      {this.props.returns.map((item, index) => 
-                        // console.log(item.total)
-                        item.total !== 0 ?
-                           <tr key={`${index}${item.lng}`}>
-                              <td>{this.props.offence}</td>
-                              <td>{item.LGA}</td>
-                              <td>{item.total}</td>   
-                              {this.props.gender !== '' ? <td>{this.props.gender}</td> : null}     
-                              {this.props.age !== '' ? <td>{this.props.age}</td> : null}
-                              {this.props.year !== '' ? <td>{this.props.year}</td> : null}
-                              {this.props.month !== '' ? <td>{this.props.month}</td> : null}                
-                              <td >{`latitude: ${item.lat}`}<br></br>{`longitude: ${item.lng}`}</td>
-                           </tr> 
-                        : null
+                        <tr className="bodyy" key={`${index}${item.lng}`}>
+                           <td>{this.props.offence}</td>
+                           <td>{item.LGA}</td>
+                           <td>{item.total}</td>   
+                           {this.props.gender !== '' ? <td>{this.props.gender}</td> : null}     
+                           {this.props.age !== '' ? <td>{this.props.age}</td> : null}
+                           {this.props.year !== '' ? <td>{this.props.year}</td> : null}
+                           {this.props.month !== '' ? <td>{this.props.month}</td> : null}                
+                           <td >{`latitude: ${item.lat}`}<br></br>{`longitude: ${item.lng}`}</td>
+                        </tr> 
                      )}   
                   </tbody> 
                </table>

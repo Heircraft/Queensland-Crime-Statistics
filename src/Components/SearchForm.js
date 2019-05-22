@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import '../Styles/css/SearchForm.css'
 import DisplayQuery from './DisplayQuery.js'
-import DisplayGraphs from './DisplayGraphs.js';
+import DisplayGraph from './DisplayGraph.js';
 import DisplayMap from './DisplayMap.js';
 
 import Alert from 'react-s-alert';
@@ -37,6 +37,7 @@ class SearchForm extends Component {
       this.state = {
          showMapComponent: false,
          showQueryComponent: false,
+         showGraphComponent: false,
          returns:[],
          offence:'',
          age:'',
@@ -54,6 +55,7 @@ class SearchForm extends Component {
       this.handleChange = this.handleChange.bind(this);
       this.submitQuery = this.submitQuery.bind(this);
       this.mapOnClick = this.mapOnClick.bind(this);
+      this.graphOnClick = this.graphOnClick.bind(this);
       this.cantMap = this.cantMap.bind(this);
 
    }
@@ -83,6 +85,7 @@ class SearchForm extends Component {
       this.setState({
          showMapComponent: false,
          showQueryComponent: true,
+         showGraphComponent: false
        });
    
    //the filter parameters
@@ -130,8 +133,13 @@ class SearchForm extends Component {
          }
          throw new Error("Error when retrieving data");
       })
-      .then((data) => this.setState({returns: data.result}))
-
+      .then((data) => this.setState(
+         data.result.map((item, index) => (
+            data.result.length = data.result.length-1,
+            item.total !== 0 ? 
+               this.setState(this.state.returns[index] = item)
+            : this.setState(this.state.returns[index] = '')
+      ))))
 
       .catch((error) => {
          console.log("There has been a problem with your fetch operation: ",error.message);
@@ -182,7 +190,7 @@ class SearchForm extends Component {
    }
 
    cantMap() {
-      Alert.error('There is no data to Map', {
+      Alert.error('There is no data to Plot/Map', {
          position: 'top',
          effect: 'slide',
          offset: 180,
@@ -193,6 +201,15 @@ class SearchForm extends Component {
    mapOnClick() {
       this.setState({
          showMapComponent: true,
+         showQueryComponent: false,
+         showGraphComponent: false
+       });
+   }
+
+   graphOnClick() {
+      this.setState({
+         showGraphComponent: true,
+         showMapComponent: false,
          showQueryComponent: false
        });
    }
@@ -280,28 +297,33 @@ class SearchForm extends Component {
                   </div>    
                </form>
          <div className="mapbtn"> 
-            {this.state.returns.length > 0 ? <button onClick={this.mapOnClick} className="btn2"><p>Graph</p></button>
+            {this.state.returns.length > 0 ? <button onClick={this.mapOnClick} className="btn2"><p>Map</p></button>
             : <button onClick={this.cantMap} className="btn2"><p>Map</p></button>}
+         </div>
+         <div className="graphbtn"> 
+            {this.state.returns.length > 0 ? <button onClick={this.graphOnClick} className="btn3"><p>Graph</p></button>
+            : <button onClick={this.cantMap} className="btn3"><p>Graph</p></button>}
          </div>
       </div>
 
-         
-
       <div className="background">
-         {!this.state.showGMapComponent && this.state.showQueryComponent ? 
+         {!this.state.showMapComponent && !this.state.showGraphComponent && this.state.showQueryComponent ? 
          <DisplayQuery returns={this.state.returns} offence={this.state.offenceT}
          age={this.state.ageT} gender={this.state.genderT}
          year={this.state.yearT} month={this.state.monthT}/> 
          :  null}
-         {this.state.showMapComponent && !this.state.showQueryComponent ? 
+ 
+         {this.state.showMapComponent && !this.state.showGraphComponent && !this.state.showQueryComponent ? 
          <DisplayMap returns={this.state.returns} offence={this.state.offenceT}
          age={this.state.ageT} gender={this.state.genderT}
          year={this.state.yearT} month={this.state.monthT}/>
          : null}
          
-         {/* <DisplayGraphs returns={this.state.returns} offence={this.state.offenceT}
+         {!this.state.showMapComponent && this.state.showGraphComponent &&!this.state.showQueryComponent ? 
+         <DisplayGraph returns={this.state.returns} offence={this.state.offenceT}
          age={this.state.ageT} gender={this.state.genderT}
-         year={this.state.yearT} month={this.state.monthT}/> */}
+         year={this.state.yearT} month={this.state.monthT}/>
+         : null}
       </div>
    
    </div>

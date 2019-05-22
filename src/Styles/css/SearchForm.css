@@ -2,9 +2,10 @@
 .headerwrapper {
    display: inline-block;
    width: 100%;
+   overflow: inherit;
    
    
-   position: relative;
+
   box-shadow: 0px 5px 20px rgba(0, 0, 0, .5);
   padding: 10px;
 }
@@ -19,6 +20,13 @@
 }
 
 .mapbtn {
+   position: absolute;
+   right:10px;
+   top: 27px;
+   
+}
+
+.graphbtn {
    position: absolute;
    right:120px;
    top: 27px;
@@ -59,7 +67,7 @@
    color: #494949 !important;
    background: #ffffff;
    padding: 20px;
-   border: 3px solid #055d97 !important;
+   border: 3px solid #29aa2f !important;
    border-radius: 6px;
    display: inline-block;
    align-items: right;
@@ -72,6 +80,29 @@
 }
 
 .btn2:hover {
+   color: #ffffff !important;
+   background: #29aa2f;
+   border-color: #29aa2f !important;
+   transition: all 0.3s ease 0s;
+}
+
+.btn3 {
+   color: #494949 !important;
+   background: #ffffff;
+   padding: 20px;
+   border: 3px solid #055d97 !important;
+   border-radius: 6px;
+   display: inline-block;
+   align-items: right;
+   width: 100px;
+   height: 135px;
+}
+
+.btn3 p {
+   font-size: 150%;
+}
+
+.btn3:hover {
    color: #ffffff !important;
    background: #055d97;
    border-color: #055d97 !important;

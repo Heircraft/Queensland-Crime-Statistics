@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import '../Styles/css/Login.css';
 
 import RegisterForm from './RegisterForm.js'
-import Home from './Home.js'
 
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';

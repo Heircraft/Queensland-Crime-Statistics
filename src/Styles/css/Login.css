@@ -1,5 +1,5 @@
 
-.btn3 {
+.btn4 {
    width: 100%;
 
    background-color: #ffffff;
@@ -8,7 +8,7 @@
    cursor: pointer;
 }
 
-.btn3:hover {
+.btn4:hover {
    color: #ffffff !important;
    background: #f52d2d;
    border-color: #ffffff !important;

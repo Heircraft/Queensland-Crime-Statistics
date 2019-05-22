@@ -4,7 +4,7 @@ import '../Styles/css/Login.css';
 import RegisterForm from './RegisterForm.js'
 
 import LoginForm from './LoginForm.js'
-import Home from './Home.js'
+import SearchForm from './SearchForm.js'
 
 import Alert from 'react-s-alert';
 import 'react-s-alert/dist/s-alert-default.css';
@@ -287,9 +287,9 @@ class LoginPage extends Component {
       if (this.state.isLoggedIn && this.state.JWT !== '') {
          return (
             <div> 
-               <Home JWT={this.state.JWT}/>
+               <SearchForm JWT={this.state.JWT}/>
                <div className="logoutbtn"> 
-                  <button onClick={this.logOut} className="btn3"><p>Logout</p></button>
+                  <button onClick={this.logOut} className="btn4"><p>Logout</p></button>
                </div>  
             </div>
          )        
