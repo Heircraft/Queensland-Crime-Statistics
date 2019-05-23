@@ -12,7 +12,9 @@ import 'react-s-alert/dist/s-alert-css-effects/slide.css';
 import TextField from '@material-ui/core/TextField';
 import { withStyles } from '@material-ui/core/styles';
 var monthRegex = /[0-9,]/;
-var queryRegex = /[0-9A-Za-z,]/;
+var offenceRegex = /[A-Za-z\s]/;
+var areaRegex = /[A-Za-z\s,]/;
+var genderRegex = /[A-Za-z,]/;
 var regex = /[0-9A-Za-z]/;
 const styles = theme => ({
    container: {
@@ -62,9 +64,7 @@ class SearchForm extends Component {
 
    submitQuery(e) {
       e.preventDefault();
-      if (!regex.test(this.state.offence) && !regex.test(this.state.area) && 
-      !regex.test(this.state.age) && !regex.test(this.state.gender) && 
-      !regex.test(this.state.year) && !regex.test(this.state.month)) {
+      if (!regex.test(this.state.offence)) {
          Alert.error('You must specify the offence', {
             position: 'top',
             effect: 'slide',
@@ -81,7 +81,23 @@ class SearchForm extends Component {
          })
          return;
       }
-
+      if (this.state.year !== '' && this.state.year <= 2000) {
+         Alert.error('The year must be 2001 to present', {
+            position: 'top',
+            effect: 'slide',
+            offset: 180,
+            timeout: 3000
+         });
+         this.setState({
+            offence:'',
+            age:'',
+            gender:'',
+            year:'',
+            month:'',
+            area:''
+         })
+         return;
+      }
       this.setState({
          showMapComponent: false,
          showQueryComponent: true,
@@ -133,13 +149,7 @@ class SearchForm extends Component {
          }
          throw new Error("Error when retrieving data");
       })
-      .then((data) => this.setState(
-         data.result.map((item, index) => (
-            data.result.length = data.result.length-1,
-            item.total !== 0 ? 
-               this.setState(this.state.returns[index] = item)
-            : this.setState(this.state.returns[index] = '')
-      ))))
+      .then(data => this.setState(this.state.returns = data.result.filter(item => item.total !== 0)))
 
       .catch((error) => {
          console.log("There has been a problem with your fetch operation: ",error.message);
@@ -163,9 +173,9 @@ class SearchForm extends Component {
    }
 
    handleChange = (e) => {
-      if (e.target.name === 'age' || e.target.name === 'gender' || e.target.name === 'year') {
-         if (!queryRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
-            Alert.error('This field must contain only numbers or letters separated by a comma', {
+      if (e.target.name === 'offence') {
+         if (!offenceRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
+            Alert.error('This field must contain only space separated words', {
                position: 'top',
                effect: 'slide',
                offset: 180,
@@ -174,9 +184,31 @@ class SearchForm extends Component {
             return;
          }
       }
-      if (e.target.name === 'month') {
+      if (e.target.name === 'area') {
+         if (!areaRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
+            Alert.error('This field must contain only space or comma separated words', {
+               position: 'top',
+               effect: 'slide',
+               offset: 180,
+               timeout: 3000
+            });
+            return;
+         }
+      }
+      if (e.target.name === 'month' || e.target.name === 'year') {
          if (!monthRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
             Alert.error('This field must contain only numbers separated by a comma', {
+               position: 'top',
+               effect: 'slide',
+               offset: 180,
+               timeout: 3000
+            });
+            return;
+         }
+      }
+      if (e.target.name === 'gender' || e.target.name === 'age') {
+         if (!genderRegex.test(e.target.value.slice(-1)) && e.target.value.length >= 1) {
+            Alert.error('This field must contain only contain comma separated words', {
                position: 'top',
                effect: 'slide',
                offset: 180,
@@ -307,7 +339,7 @@ class SearchForm extends Component {
       </div>
 
       <div className="background">
-         {!this.state.showMapComponent && !this.state.showGraphComponent && this.state.showQueryComponent ? 
+         {!this.state.showMapComponent && !this.state.showGraphComponent && this.state.showQueryComponent && this.state.returns.length > 0 ? 
          <DisplayQuery returns={this.state.returns} offence={this.state.offenceT}
          age={this.state.ageT} gender={this.state.genderT}
          year={this.state.yearT} month={this.state.monthT}/> 

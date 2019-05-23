@@ -6,19 +6,19 @@ var max = 255;
 // var returned = [];
 class DisplayGraphs extends Component{
   constructor(props){
-    super(props);
-    this.state = {
-       chartData: {
-         labels: this.props.returns.map(item => item.LGA),
-         datasets: [
-            {
-               data: this.props.returns.map(item => item.total),
-               backgroundColor: this.props.returns.map(item =>`rgba(${min+(Math.random()*(max-min))},${min+(Math.random()*(max-min))},${min+(Math.random()*(max-min))},0.6)`)
-            }
-         ]
-       }
-    }
-  }
+      super(props);
+      this.state = {
+         chartData: {
+            labels: this.props.returns.map(item => item.LGA),
+            datasets: [
+               {
+                  data: this.props.returns.map(item => item.total),
+                  backgroundColor: this.props.returns.map(item =>`rgba(${min+(Math.random()*(max-min))},${min+(Math.random()*(max-min))},${min+(Math.random()*(max-min))},0.6)`)
+               }
+            ]
+         }
+      }
+   }
 
    render(){
       var subtitle = ''

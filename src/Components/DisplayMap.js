@@ -10,13 +10,11 @@ const Map = (props) => {
          defaultCenter={{lat: -23, lng: 144}}
          >
          {props.returns.map((item, index) => (
-            // item.total !== 0 ?
-               <Marker key={`${index}${item.lat}`} title={`${item.LGA}        Instances: ${item.total}`}
-               position={{
-                  lat: item.lat,
-                  lng: item.lng
-                  }}/>
-            // : null
+            <Marker key={`${index}${item.lat}`} title={`${item.LGA}        Instances: ${item.total}`}
+            position={{
+               lat: item.lat,
+               lng: item.lng
+               }}/>
          ))}
       </GoogleMap>
    );
