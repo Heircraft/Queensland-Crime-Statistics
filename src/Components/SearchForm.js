@@ -59,9 +59,22 @@ class SearchForm extends Component {
       this.mapOnClick = this.mapOnClick.bind(this);
       this.graphOnClick = this.graphOnClick.bind(this);
       this.cantMap = this.cantMap.bind(this);
+      this.checkResults = this.checkResults.bind(this);
+
 
    }
 
+   checkResults() {
+      if (this.state.returns.length < 1 &&  this.state.showQueryComponent) {
+         Alert.error('No Results Were Found', {
+            position: 'top',
+            effect: 'slide',
+            offset: 180,
+            timeout: 3000
+         })
+      }
+   }
+   
    submitQuery(e) {
       e.preventDefault();
       if (!regex.test(this.state.offence)) {
@@ -137,19 +150,38 @@ class SearchForm extends Component {
 
    fetch(encodeURI(url),getParam)
       .then(function(res) {
-         if (res.ok) {
+         if (res.status === 200) {
             return res.json();
+         } else if (res.status === 400) {
+            {Alert.error('No results Found', {
+               position: 'top',
+               effect: 'slide',
+               offset: 180,
+               timeout: 3000
+            })
+            }
+         } else if (res.status === 401) {
+            {Alert.error('Your Authorization Token is Invalid', {
+               position: 'top',
+               effect: 'slide',
+               offset: 180,
+               timeout: 3000
+            })
+            }
+         } else if (res.status === 500) {
+            {Alert.error('Invalid Offence', {
+               position: 'top',
+               effect: 'slide',
+               offset: 180,
+               timeout: 3000
+            })
+            }
+         } else {
+            throw new Error("Error when retrieving data");
          }
-         {Alert.error('No results Found', {
-            position: 'top',
-            effect: 'slide',
-            offset: 180,
-            timeout: 3000
-         })
-         }
-         throw new Error("Error when retrieving data");
       })
       .then(data => this.setState(this.state.returns = data.result.filter(item => item.total !== 0)))
+      .then(this.checkResults)
 
       .catch((error) => {
          console.log("There has been a problem with your fetch operation: ",error.message);

@@ -3,7 +3,6 @@ import '../Styles/css/DisplayMap.css'
 import {GoogleMap, withScriptjs, withGoogleMap, Marker} from 'react-google-maps';
 
 const Map = (props) => {
-   console.log(props.returns)
    return (
       <GoogleMap 
          defaultZoom={5} 
@@ -63,7 +62,3 @@ class DisplayMap extends Component {
    }
 }
 export default DisplayMap
-
-// export default GoogleApiWrapper({
-//    apiKey: ('AIzaSyAdL4XQ5Y-4KTkJKMNgU4M9qk7iP_KKJw0')
-//  })(DisplayMap)
