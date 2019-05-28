@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import '../Styles/css/Login.css';
 
 import RegisterForm from './RegisterForm.js'
+import blue from '../Styles/images/noway.png'
 
 import LoginForm from './LoginForm.js'
 import SearchForm from './SearchForm.js'
@@ -296,7 +297,7 @@ class LoginPage extends Component {
       } 
       else {
          return (
-               <div className="root-container" style={{backgroundImage: `url('http://cleancanvas.herokuapp.com/img/backgrounds/landscape.png')`}}>
+               <div className="root-container">
                   <div className="box-controller">
                      <div className={"controller " + (this.state.isLoginOpen ? "selected-controller" : "")} onClick={this.showLoginBox.bind(this)}>
                         Login
