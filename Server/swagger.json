@@ -1,0 +1,343 @@
+{ "openapi":"3.0.0",
+    "info":{ 
+        "title":"CAB230 : Web Computing  Assignment API",
+        "description":"This API has been created as the server side of the CAB230 Assignment",
+        "version":"1.0.0",
+        "termsOfService":"http://swagger.io/terms/",
+        "contact":{"email":"j.hogan@qut.edu.au"},
+        "license":{
+            "name":"Apache 2.0",
+            "url":"http://www.apache.org/licenses/LICENSE-2.0.html"
+        } 
+    },
+    "servers":[ 
+        {
+            "url": "http://localhost:3000"
+        }
+    ],
+    "tags":[
+        { 
+          "name":"Authentication"
+        },
+        { 
+          "name":"Search"
+        },
+        { 
+          "name":"Helpers"
+          }
+
+    ],
+    "paths":{ 
+        "/offences":{ 
+            "get":{
+                    "tags":["Helpers"],
+                    "description":"List of offences to perform searches for",
+                    "operationId":"get_offences",
+                    "produces":["application/json"],
+                    "responses":{
+                        "200":{
+                           "description":"OK",
+                           "content": {
+                              "application/json": {
+                                 "schema": {
+                                    "type":"object",
+                                    "properties": {
+                                       "offences": {
+                                          "type": "array",
+                                          "example": ["Advertising Prostitution", "Armed Robbery"]
+                                       }
+                                       
+                                    }
+                                    
+                                 }
+                              }
+                           }
+
+                        }
+                    }
+                }
+        },
+        "/areas":{ 
+         "get":{
+                 "tags":["Helpers"],
+                 "description":"List of Areas to filter search results by",
+                 "operationId":"get_areas",
+                 "produces":["application/json"],
+                 "responses":{
+                     "200":{
+                        "description":"OK",
+                        "content": {
+                           "application/json": {
+                              "schema": {
+                                 "type":"object",
+                                 "properties": {
+                                    "areas": {
+                                       "type": "array",
+                                       "example": ["Aurukun Shire Council", "Balonne Shire Council"]
+                                    }
+                                    
+                                 }
+                                 
+                              }
+                           }
+                        }
+
+                     }
+                 }
+             }
+     },
+     "/ages":{ 
+      "get":{
+              "tags":["Helpers"],
+              "description":"List of Ages to filter search results by",
+              "operationId":"get_ages",
+              "produces":["application/json"],
+              "responses":{
+                  "200":{
+                     "description":"OK",
+                     "content": {
+                        "application/json": {
+                           "schema": {
+                              "type":"object",
+                              "properties": {
+                                 "ages": {
+                                    "type": "array",
+                                    "example": ["Adult", "Juvenile"]
+                                 }
+                                 
+                              }
+                              
+                           }
+                        }
+                     }
+
+                  }
+              }
+          }
+  },
+  "/genders":{ 
+   "get":{
+           "tags":["Helpers"],
+           "description":"List of Genders to filter search results by",
+           "operationId":"get_genders",
+           "produces":["application/json"],
+           "responses":{
+               "200":{
+                  "description":"OK",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type":"object",
+                           "properties": {
+                              "genders": {
+                                 "type": "array",
+                                 "example": ["Female", "Male"]
+                              }
+                              
+                           }
+                           
+                        }
+                     }
+                  }
+
+               }
+           }
+       }
+},
+"/years":{ 
+   "get":{
+           "tags":["Helpers"],
+           "description":"List of Years to filter search results by",
+           "operationId":"get_years",
+           "produces":["application/json"],
+           "responses":{
+               "200":{
+                  "description":"OK",
+                  "content": {
+                     "application/json": {
+                        "schema": {
+                           "type":"object",
+                           "properties": {
+                              "years": {
+                                 "type": "array",
+                                 "example": ["2001", "2002"]
+                              }
+                              
+                           }
+                           
+                        }
+                     }
+                  }
+
+               }
+           }
+       }
+},
+        "/api/city/{CountryCode}":{ 
+            "get":{
+                    "tags":["query"],
+                    "summary":"List cities for given country.",
+                    "description":"Listing of all information for each city for the selected country",
+                    "operationId":"listCitiesForCountry",
+                    "produces":["application/json"],
+                    "parameters":[{
+                        "name":"CountryCode",
+                        "in":"path",
+                        "description":"Three letter Country Code used to filter queries.",
+                        "required":true,
+                        "schema":{
+                            "type":"string",
+                            "example":"NZL"
+                        }
+                    }],
+                    "responses":{
+                        "200":{
+                            "description":"successful operation",
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "Error":{
+                                        "type":"string",
+                                        "enum":["true","false"]
+                                    },
+                                    "Message":{
+                                        "type":"string",
+                                        "enum":["Success","Failure"]
+                                    },
+                                    "Cities":{
+                                        "type":"array",
+                                        "items":{
+                                            "type":"object",
+                                            "properties":{
+                                                "ID":{
+                                                    "type":"integer"
+                                                },
+                                                "Name":{
+                                                    "type":"string"
+                                                },
+                                                "CountryCode":{
+                                                    "type":"string"
+                                                },
+                                                "District":{
+                                                    "type":"string"
+                                                },
+                                                "Population":{
+                                                    "type":"integer"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+        "/api/update":{
+            "post":{
+                "tags":["updates"],
+                "summary":"Update population figure for a city",
+                "description":"Update population figure for a city. Requires City and Country Code",
+                "operationId":"popUpdate",
+                "produces":["application/json"],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "City":{
+                                        "type":"string",
+                                        "example":"Tokyo",
+                                        "description":"City to update",
+                                        "required":true
+                                    },
+                                    "CountryCode":{
+                                        "type":"string",
+                                        "example":"JPN",
+                                        "description":"Three letter Country Code used to filter queries",
+                                        "required":true
+                                    },
+                                    "Pop":{
+                                        "type":"integer",
+                                        "example":13515271,
+                                        "description":"New population value",
+                                        "required":true
+                                    }
+                                },
+                                "example":{
+                                    "City":"Tokyo",
+                                    "CountryCode":"JPN",
+                                    "Pop":13515271
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description":"successful operation",
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "Error":{
+                                    "type":"string",
+                                    "enum":["true","false"]
+                                },
+                                "Message":{
+                                    "type":"string"
+                                }
+                            },
+                            "example":{
+                                "Error":false, 
+                                "Message": "Successful update of population for Tokyo, (JPN)"
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"bad request",
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "Error":{
+                                    "type":"string",
+                                    "enum":["true","false"]
+                                },
+                                "Message":{
+                                    "type":"string"
+                                }
+                            },
+                            "example":{
+                                "Error":true, 
+                                "Message": "Error updating population - you must supply City, CountryCode and Pop"
+                            }
+                        }
+                    },
+                    "500":{
+                        "description":"internal server error: database error",
+                        "schema":{
+                            "type":"object",
+                            "properties":{
+                                "Error":{
+                                    "type":"string",
+                                    "enum":["true","false"]
+                                },
+                                "Message":{
+                                    "type":"string"
+                                }
+                            },
+                            "example":{
+                                "Error":true, 
+                                "Message": "Database error - population not updated"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+                

@@ -254,7 +254,6 @@ class LoginPage extends Component {
       "Content-type": "application/x-www-form-urlencoded"
       }
    })
-   //   .then((res) => res.json())
    .then(function(res) {
       if (res.status === 200) {
          return res.json();
